@@ -53,3 +53,47 @@ In a default generated project by Visual Studio we now also need to modify the f
                 });
         }
     }
+
+
+# Installation
+
+Open a PowerShell console shell with administrator permissions and run the Powerhell script ```InstallDevSts.ps1```.
+
+This script will create a website ```DevSts``` where the DevSts server will be running. Open it with http://devsts.
+
+When you run the script you will see the following output:
+
+```
+Installing DevSts as site 'DevSts'                                                                
+Deleting old StsDev folder 'C:\inetpub\wwwroot\DevSts'                                            
+Unzipping StsDev to 'C:\inetpub\wwwroot\DevSts'                                                   
+Creating website 'DevSts'                                                                         
+Set right to folder 'C:\inetpub\wwwroot\DevSts' for application pool 'IIS AppPool\DefaultAppPool' 
+processed file: C:\inetpub\wwwroot\DevSts                                                         
+Successfully processed 1 files; Failed processing 0 files                                         
+Adding hostname 'DevSts' to the hosts file                                                        
+Done.   
+```  
+
+# Developing on devsts
+
+## Creating an installation package:
+
+- Right-click DevSts project
+- Select Publish...
+- On Profile: 
+
+    - Select the profile "Publish site for IIS"
+
+- On Connection:
+
+    - Publish method: File System
+	- Target location: ....\DevSts\Installer\Files
+	
+- Settings:
+
+    - Configuration: Release
+	- File Publish Options:
+	    - Precompile during publishing (configure: Merge all outputs to a single assembly - DevStsSite)
+
+Now zip the contents of the folder 	```Installer\Files``` to the file ```Installer\DevSts.zip```.	

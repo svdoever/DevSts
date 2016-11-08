@@ -136,7 +136,6 @@
     <EmbeddedResource Include="Assets\index.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <None Include="LICENSE" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
