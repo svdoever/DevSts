@@ -57,9 +57,10 @@ In a default generated project by Visual Studio we now also need to modify the f
 
 # Installation
 
+Download the files in the ```Installer`` folder to a folder on your local machine.
 Open a PowerShell console shell with administrator permissions and run the Powerhell script ```InstallDevSts.ps1```.
 
-This script will create a website ```DevSts``` where the DevSts server will be running. Open it with http://devsts.
+This script will create a website ```DevSts``` where the DevSts server will be running. Open it with http://DevSts.
 
 When you run the script you will see the following output:
 
@@ -75,7 +76,19 @@ Adding hostname 'DevSts' to the hosts file
 Done.   
 ```  
 
-# Developing on devsts
+# Developing on DevSts
+
+DevSts is a project developed in Visual Studio 2015 with ASP.NET MVC and the .Net 4.6 framework.
+
+## Creating websites in IIS Manager
+
+- Create a website in IIS Manager with name DevSts_dev and hostheader DevSts_dev and point it to ```....\DevSts\DevSts```
+- Create a website in IIS Manager with name DevSts_test and hostheader DevSts_test and point it to ```....\DevSts\DevStsOwinVanillaVisualStudio2015```
+- ```Add 127.0.0.1 DevSts_dev``` to file ```C:\Windows\System32\drivers\etc\hosts```
+- ```Add 127.0.0.1 DevSts_test``` to file ```C:\Windows\System32\drivers\etc\hosts```
+- Set both projects as startup project and start from within Visual Studio
+
+
 
 ## Creating an installation package:
 
