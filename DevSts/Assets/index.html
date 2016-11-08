@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>DevSts - you development STS server</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>DevSts is operational</h1>
+    <p>
+        Add the following setting to your web.config file:
+        <pre>
+            &lt;appSettings&gt;
+                &lt;add key="ida:ADFSMetadata" value="http://DevSts/FederationMetadata" /&gt;
+                &lt;add key="ida:Wtrealm" value="urn:Whatever" /&gt;
+                &lt;add key="ida:ReplyAddress" value="&lt;url of your site&gt;" /&gt;
+            &lt;/appSettings&gt;
+        </pre>
+    </p>
+</body>
+</html>
