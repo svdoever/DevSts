@@ -82,12 +82,14 @@ namespace DevSts.WsFed
             var config = new DevStsTokenServiceConfiguration();
             var sts = config.CreateSecurityTokenService();
 
-            var appPath = Request.ApplicationPath;
-            if (!appPath.EndsWith("/")) appPath += "/";
-
             // when the reply querystringparameter has been specified, don't overrule it. 
-            if (String.IsNullOrEmpty(signInMsg.Reply))
+            if (string.IsNullOrEmpty(signInMsg.Reply))
+            {
+                var appPath = Request.ApplicationPath;
+                if (appPath != null && !appPath.EndsWith("/")) appPath += "/";
+
                 signInMsg.Reply = new Uri(Request.Url, appPath).AbsoluteUri;
+            }
             var response = FederatedPassiveSecurityTokenServiceOperations.ProcessSignInRequest(signInMsg, user, sts);
 
             var body = response.WriteFormPost();

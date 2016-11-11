@@ -103,11 +103,6 @@ namespace DevSts
                     {
                         new UserClaim
                         {
-                            Type = ClaimTypes.NameIdentifier,
-                            Value = "alice"
-                        },
-                        new UserClaim
-                        {
                             Type = ClaimTypes.Name,
                             Value = "Alice"
                         },
@@ -118,8 +113,23 @@ namespace DevSts
                         },
                         new UserClaim
                         {
-                            Type = "http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", 
-                            Value = "DevSts"
+                            Type = ClaimTypes.GivenName,
+                            Value = "Alice"
+                        },
+                        new UserClaim
+                        {
+                            Type = ClaimTypes.Surname,
+                            Value = "Doe"
+                        },
+                        new UserClaim
+                        {
+                            Type = CustomClaimTypes.Domain,
+                            Value = "nl"
+                        },
+                        new UserClaim
+                        {
+                            Type = ClaimTypes.WindowsAccountName,
+                            Value = "ADoe"
                         },
                     }
                 },
@@ -128,11 +138,6 @@ namespace DevSts
                     Name = "Bob", 
                     Claims = new UserClaim[]
                     {
-                        new UserClaim
-                        {
-                            Type = ClaimTypes.NameIdentifier,
-                            Value = "bob"
-                        },
                         new UserClaim
                         {
                             Type = ClaimTypes.Name,
@@ -145,12 +150,33 @@ namespace DevSts
                         },
                         new UserClaim
                         {
-                            Type = "http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", 
-                            Value = "DevSts"
+                            Type = ClaimTypes.GivenName,
+                            Value = "Bob"
+                        },
+                        new UserClaim
+                        {
+                            Type = ClaimTypes.Surname,
+                            Value = "de Bouwer"
+                        },
+                        new UserClaim
+                        {
+                            Type = CustomClaimTypes.Domain,
+                            Value = "nl"
+                        },
+                        new UserClaim
+                        {
+                            Type = ClaimTypes.WindowsAccountName,
+                            Value = "BdeBouwer"
                         },
                     }
                 }
             };
         }
+    }
+
+    public static class CustomClaimTypes
+    {
+        public const string Domain = "http://schemas.deloitte.com/ws/2011/05/identity/claims/domain";
+        public const string WindowsAccountName = "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname";
     }
 }
