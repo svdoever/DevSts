@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using DevSts.Assets;
-using NLog;
 
 namespace DevSts.Controllers
 {

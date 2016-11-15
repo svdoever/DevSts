@@ -43,8 +43,7 @@ namespace DevSts
             if (IsDevSts(e.FederationConfiguration.WsFederationConfiguration.Issuer))
             {
                 var inr = new ConfigurationBasedIssuerNameRegistry();
-                inr.AddTrustedIssuer(DevStsConstants.SigningCertificate.Thumbprint,
-                                     DevStsConstants.TokenIssuerName);
+                inr.AddTrustedIssuer(DevStsConstants.SigningCertificate.Thumbprint, DevStsConstants.TokenIssuerName);
                 
                 var config = e.FederationConfiguration;
                 config.IdentityConfiguration.IssuerNameRegistry = inr;
@@ -68,8 +67,7 @@ namespace DevSts
         private static void ConfigureWIF()
         {
             var inr = new ConfigurationBasedIssuerNameRegistry();
-            inr.AddTrustedIssuer(DevStsConstants.SigningCertificate.Thumbprint,
-                                 DevStsConstants.TokenIssuerName);
+            inr.AddTrustedIssuer(DevStsConstants.SigningCertificate.Thumbprint, DevStsConstants.TokenIssuerName);
             var config = FederatedAuthentication.FederationConfiguration;
             config.IdentityConfiguration.IssuerNameRegistry = inr;
 
@@ -80,7 +78,6 @@ namespace DevSts
             }
             config.IdentityConfiguration.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.None;
             config.IdentityConfiguration.RevocationMode = System.Security.Cryptography.X509Certificates.X509RevocationMode.NoCheck;
-
         }
 
         private static void ConfigureRoutes()

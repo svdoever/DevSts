@@ -3,12 +3,14 @@
  * see LICENSE
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web.Hosting;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace DevSts
 {
@@ -37,6 +39,10 @@ namespace DevSts
         {
             var users = GetAllUsers();
             var user = users.FirstOrDefault(x => x.Name == name);
+            if (user == null)
+            {
+                throw new Exception($"User: {name} is not found!");
+            }
             var claims = user.Claims.Select(x => new Claim(x.Type, x.Value)).ToList();
             return claims;
         }
@@ -84,8 +90,7 @@ namespace DevSts
             {
                 using (var sw = File.CreateText(path))
                 {
-                    var ser = new JavaScriptSerializer();
-                    var json = ser.Serialize(GetDefaultUsers());
+                    var json = JsonConvert.SerializeObject(GetDefaultUsers(), Formatting.Indented);
                     sw.Write(json);
                     sw.Flush();
                 }
@@ -121,16 +126,6 @@ namespace DevSts
                             Type = ClaimTypes.Surname,
                             Value = "Doe"
                         },
-                        new UserClaim
-                        {
-                            Type = CustomClaimTypes.Domain,
-                            Value = "nl"
-                        },
-                        new UserClaim
-                        {
-                            Type = ClaimTypes.WindowsAccountName,
-                            Value = "ADoe"
-                        },
                     }
                 },
                 new User
@@ -158,25 +153,9 @@ namespace DevSts
                             Type = ClaimTypes.Surname,
                             Value = "de Bouwer"
                         },
-                        new UserClaim
-                        {
-                            Type = CustomClaimTypes.Domain,
-                            Value = "nl"
-                        },
-                        new UserClaim
-                        {
-                            Type = ClaimTypes.WindowsAccountName,
-                            Value = "BdeBouwer"
-                        },
                     }
                 }
             };
         }
-    }
-
-    public static class CustomClaimTypes
-    {
-        public const string Domain = "http://schemas.deloitte.com/ws/2011/05/identity/claims/domain";
-        public const string WindowsAccountName = "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname";
     }
 }

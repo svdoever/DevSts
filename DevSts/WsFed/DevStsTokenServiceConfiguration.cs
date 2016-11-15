@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.IdentityModel.Configuration;
 using System.IdentityModel.Metadata;
 using System.IdentityModel.Protocols.WSTrust;
@@ -58,11 +57,9 @@ namespace DevSts.WsFed
                 settings.IgnoreWhitespace = true;                
                 XmlReader reader = XmlReader.Create(memoryStream);
                 result = XElement.Load(reader);
-            }
-            
+            }            
 
             return result;
-        }
-       
+        }       
     }
 }
