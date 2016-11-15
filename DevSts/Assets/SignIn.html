@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-    <form action="{signInUrl}" method="post">
+    <form name="signIn" action="{signInUrl}" method="post">
         <fieldset>
             <legend>Sign In As</legend>
             <p>
@@ -21,5 +21,11 @@
             <p><input type="submit" value="Sign In" autofocus/></p>
         </fieldset>
     </form>
+    <script>
+        var optionCount = document.getElementById("username").options.length;
+        if (optionCount === 1) {
+            document.signIn.submit();
+        }
+    </script>
 </body>
 </html>
