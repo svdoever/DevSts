@@ -71,17 +71,13 @@ section of your web.config file:
 </appSettings>
 ```
 
-Note that when working with a real STS server only two settings are required: `ida:ADFSMetadata` and `ida:Wtrealm`, 
-because thereply address is normally configured in the STS server itself for a give realm.
-For `DevSts` we currently don't have the notion of different applications with their corresponding 
-reply address, so the return url must be configured using `ida:ReplyAddress`. You can leave this setting empty
-for the real STS server configuration. So for a real STS server configuration the app settings will look something like:
+When working with a real STS server the app settings will look something like:
 
 ```
 <appSettings>
     <add key="ida:ADFSMetadata" value="https://sts.mycompany.com/FederationMetadata/2007-06/FederationMetadata.xml" />
-    <add key="ida:Wtrealm" value="https://mysite.mycompany.com/" />
-    <add key="ida:ReplyAddress" value=""/>
+    <add key="ida:Wtrealm" value="urn:mysite:realm" /> <!-- ask your ADFS administrator for this realm -->
+    <add key="ida:ReplyAddress" value="https://mysite.mycompany.com/"/>
 </appSettings>
 ```
 
