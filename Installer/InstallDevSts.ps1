@@ -336,7 +336,7 @@ $DevStsUsersJson = $null
 "Installing DevSts as site '$SiteName'"
 if (Test-Path -Path $DevStsUsersJsonFile) {
     "Preserving DevSts users from file '$DevStsUsersJsonFile'"
-    $DevStsUsersJson = Get-Content -Path $DevStsUsersJsonFile
+    $DevStsUsersJson = [IO.File]::ReadAllText($DevStsUsersJsonFile)
 }
 
 $DevStsWebSite = Get-Website -Name $SiteName
