@@ -332,10 +332,11 @@ if (!(Test-Path -Path $DevStsZipPath)) {
     Break
 }
 
+$DevStsUsersJson = $null
 "Installing DevSts as site '$SiteName'"
 if (Test-Path -Path $DevStsUsersJsonFile) {
     "Preserving DevSts users from file '$DevStsUsersJsonFile'"
-    $DevStsUsersJson =  Get-Content -Path $DevStsUsersJsonFile
+    $DevStsUsersJson = Get-Content -Path $DevStsUsersJsonFile
 }
 
 $DevStsWebSite = Get-Website -Name $SiteName
@@ -351,6 +352,11 @@ if (Test-Path -Path $SiteFolder) {
 
 "Unzipping StsDev to '$SiteFolder'"
 Unzip $DevStsZipPath $SiteFolder
+
+if ($DevStsUsersJson -ne $null) {
+	"Restoring DevSts users to file '$DevStsUsersJsonFile'"
+    new-item -force -path $DevStsUsersJsonFile -value $DevStsUsersJson -type file 
+}
 
 if ($DevStsWebSite -eq $null) {
     "Creating website '$SiteName'"
