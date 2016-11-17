@@ -1,4 +1,5 @@
-﻿param (
+﻿# PowerShell v3
+param (
 	[string]$SiteName = "DevSts"
 )
 
@@ -363,6 +364,7 @@ Set-ItemProperty $IISSite -name  Bindings -value @{protocol="http";bindingInform
 
 if ($DevStsWebSite.State -ne 'Started') {
     "Starting website '$SiteName'"
+	Start-Website -Name $SiteName
 }
 "Adding hostname '$SiteName' to the hosts file"
 Add-Hostnames 127.0.0.1 $SiteName
