@@ -10,6 +10,7 @@ DevSts is a zero-configuration STS for ASP.NET MVC development with OWIN.
   - [web.config](#web-config)
   - [Startup.Auth.cs](#startup-auth-cs)
   - [DevStsUsers.json](#devstsusers-json)
+  - [Automating DevSts installation for the team](#automating-devsts-installation-for-the-team)
 - [Contribute](#contribute)
   - [Creating websites in IIS Manager](#creating-websites-in-iis-manager)
   - [Creating an installation package](#creating-an-installation-package)
@@ -172,6 +173,80 @@ Change this file with the set of test users and corresponding cleams as required
 When your application authenticates against DevSts a list box of available users is displayed that you
 can authenticate with. If there is only one user available in `DevStsUsers.json` the application automatically
 authenticated against this user.
+
+### Automating DevSts installation for the team
+
+Setting up the web.config and the code as described above is a one time job in your project, all team members check out 
+the project from source control and are done. Setting up DevSts on each of the machines of the team members can be
+another thing. The following **configure-devsts.ps1** PowerShell script can facilitate you in in setting up DevSts
+on a team member machine. The script creates a **DevStsUsers.json** configuration file that is configured so
+that each developer gets a personal set of claims. Modify the returned set of claims dependend on your needs.
+
+```
+# PowerShell v3
+
+$DevStsSiteName = 'DevSts'
+
+$tmpInstallDevSts = Join-Path -Path $PSScriptRoot -ChildPath tmpInstallDevSts
+$InstallDevSts_ps1 = "$tmpInstallDevSts\InstallDevSts.ps1"
+$DevSts_zip = "$tmpInstallDevSts\DevSts.zip"
+$DevStsUsers_json = Join-Path -Path c:\inetpub\wwwroot -ChildPath "$DevStsSiteName\App_Data\DevStsUsers.json"
+
+New-Item -Path $tmpInstallDevSts -type directory -force | out-null
+
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/svdoever/DevSts/master/Installer/InstallDevSts.ps1 -OutFile $InstallDevSts_ps1
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/svdoever/DevSts/master/Installer/DevSts.zip -OutFile $DevSts_zip
+if (!((Test-Path -Path $InstallDevSts_ps1) -and (Test-Path -Path $InstallDevSts_ps1))) {
+    "Failed to download InstallDevSts.ps1 or DevSts.zip. Retry!"
+    Remove-Item -Path $tmpInstallDevSts -Recurse
+    exit -1
+}
+
+PowerShell -Command "$InstallDevSts_ps1 -SiteName $DevStsSiteName" 
+
+if (!(Test-Path -Path $DevStsUsers_json)) {
+    $username = Get-Content -Path env:username
+    $userdomain = Get-Content -Path env:userdomain
+    $userprops = ([adsisearcher]"(samaccountname=$env:USERNAME)").FindOne().Properties
+    $json = @"
+[
+  {
+    "Name": "$($userprops.givenname)",
+    "Claims": [
+      {
+        "Type": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+        "Value": "$($userprops.name)"
+      },
+      {
+        "Type": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
+        "Value": "$($userprops.mail)"
+      },
+      {
+        "Type": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname",
+        "Value": "$($userprops.givenname)"
+      },
+      {
+        "Type": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname",
+        "Value": "$($userprops.sn)"
+      },
+      {
+        "Type": "http://schemas.yourcompany.com/ws/2011/05/identity/claims/domain",
+        "Value": "$userdomain"
+      },
+      {
+        "Type": "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname",
+        "Value": "$username"
+      }
+    ]
+  }
+]
+"@
+    new-item -force -path $DevStsUsers_json -value $json -type file
+}
+
+Remove-Item -Path $tmpInstallDevSts -Recurse
+exit 0
+```
 
 ## Contribute
 
