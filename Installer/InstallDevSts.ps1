@@ -1,4 +1,6 @@
-﻿$SiteName = "DevSts"
+﻿param (
+	[string]$SiteName = "DevSts"
+)
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 function Unzip

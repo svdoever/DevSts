@@ -3,6 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Ignore App_Data for DevSts
+DevSts/App_Data
 # Ignore intermediate DevSts installer files
 Installer/Files
 
