@@ -355,7 +355,7 @@ Unzip $DevStsZipPath $SiteFolder
 
 if ($DevStsUsersJson -ne $null) {
 	"Restoring DevSts users to file '$DevStsUsersJsonFile'"
-    new-item -force -path $DevStsUsersJsonFile -value $DevStsUsersJson -type file 
+    $null = new-item -force -path $DevStsUsersJsonFile -value $DevStsUsersJson -type file 
 }
 
 if ($DevStsWebSite -eq $null) {
